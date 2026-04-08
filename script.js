@@ -1,39 +1,28 @@
 const searchBtn = document.getElementById("searchBtn");
-const moodInput = document.getElementById("moodInput");
 const resultsDiv = document.getElementById("results");
 const loading = document.getElementById("loading");
+
+const searchInput = document.getElementById("searchInput");
 const filterSelect = document.getElementById("filter");
 const sortSelect = document.getElementById("sort");
+const darkToggle = document.getElementById("darkToggle");
 
 let allData = [];
+let currentData = [];
 
-// FETCH DATA
+// FETCH
 async function fetchData() {
   loading.classList.remove("hidden");
   resultsDiv.innerHTML = "";
 
   try {
-    // Advice API
-    const adviceRes = await fetch("https://api.adviceslip.com/advice?timestamp=" + new Date().getTime());
-    const adviceData = await adviceRes.json();
+    const res = await fetch("https://dummyjson.com/quotes");
+    const data = await res.json();
 
-    // Bored API
-    const activityRes = await fetch("https://www.boredapi.com/api/activity");
-    const activityData = await activityRes.json();
+    allData = data.quotes.slice(0, 10);
+    currentData = [...allData];
 
-    // Store data
-    allData = [
-      {
-        type: "advice",
-        text: adviceData.slip.advice
-      },
-      {
-        type: "activity",
-        text: activityData.activity
-      }
-    ];
-
-    displayData(allData);
+    displayData(currentData);
 
   } catch (error) {
     resultsDiv.innerHTML = "<p>Error fetching data 😢</p>";
@@ -42,7 +31,7 @@ async function fetchData() {
   loading.classList.add("hidden");
 }
 
-// DISPLAY DATA
+// DISPLAY
 function displayData(data) {
   resultsDiv.innerHTML = "";
 
@@ -50,42 +39,72 @@ function displayData(data) {
     const card = document.createElement("div");
     card.className = "card";
 
-    card.innerHTML = `<p>${item.text}</p>`;
+    card.innerHTML = `
+      <p>"${item.quote}"</p>
+      <small>- ${item.author}</small>
+      <br>
+      <button class="favBtn">❤️</button>
+    `;
+
+    const btn = card.querySelector(".favBtn");
+    btn.addEventListener("click", () => {
+      btn.innerText = "💖";
+    });
 
     resultsDiv.appendChild(card);
   });
 }
 
-// SEARCH BUTTON
-searchBtn.addEventListener("click", () => {
-  fetchData();
+// SEARCH
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+
+  currentData = allData.filter(item =>
+    item.quote.toLowerCase().includes(value)
+  );
+
+  displayData(currentData);
 });
 
-// FILTER (HOF)
+// FILTER
 filterSelect.addEventListener("change", () => {
-  const value = filterSelect.value;
+  if (filterSelect.value === "short") {
+    currentData = allData.filter(item => item.quote.length < 80);
+  } else if (filterSelect.value === "long") {
+    currentData = allData.filter(item => item.quote.length >= 80);
+  } else {
+    currentData = [...allData];
+  }
 
-  const filtered = value === "all"
-    ? allData
-    : allData.filter(item => item.type === value);
-
-  displayData(filtered);
+  displayData(currentData);
 });
 
-// SORT (HOF)
+// SORT
 sortSelect.addEventListener("change", () => {
-  let sorted = [...allData];
+  let sorted = [...currentData];
 
   if (sortSelect.value === "length") {
-    sorted.sort((a, b) => a.text.length - b.text.length);
+    sorted.sort((a, b) => a.quote.length - b.quote.length);
   }
 
   displayData(sorted);
 });
 
-// ENTER KEY SEARCH
-moodInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    fetchData();
+// TOGGLE VIDEO SWITCH 🔥
+darkToggle.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  const video = document.getElementById("bgVideo");
+  const source = video.querySelector("source");
+
+  if (document.body.classList.contains("light")) {
+    source.src = "bglight.mp4";
+  } else {
+    source.src = "bg.mp4";
   }
+
+  video.load();
 });
+
+// BUTTON
+searchBtn.addEventListener("click", fetchData);

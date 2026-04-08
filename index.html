@@ -4,40 +4,78 @@
   <meta charset="UTF-8">
   <title>MoodScape 🌈</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="container">
-    <h1>🌈 MoodScape</h1>
+<!-- VIDEO -->
+<video autoplay muted loop id="bgVideo">
+  <source src="bg.mp4" type="video/mp4">
+</video>
 
-    <p class="subtitle">How are you feeling today?</p>
+<!-- HEADER -->
+<header>
+  <h2>MoodScape 🌈</h2>
+  <button id="darkToggle">🌙</button>
+</header>
 
-    <!-- Input -->
-    <input type="text" id="moodInput" placeholder="Type your mood...">
-    <button id="searchBtn">Search</button>
+<!-- MAIN -->
+<div class="container">
 
-    <!-- Controls -->
-    <div class="controls">
-      <select id="filter">
-        <option value="all">All</option>
-        <option value="advice">Advice</option>
-        <option value="activity">Activity</option>
-      </select>
+  <h1>Find Your Mood ✨</h1>
 
-      <select id="sort">
-        <option value="default">Sort</option>
-        <option value="length">By Length</option>
-      </select>
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search quotes...">
+
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="short">Short</option>
+      <option value="long">Long</option>
+    </select>
+
+    <select id="sort">
+      <option value="default">Sort</option>
+      <option value="length">By Length</option>
+    </select>
+
+    <button id="searchBtn">Fetch</button>
+  </div>
+
+  <p id="loading" class="hidden">Loading...</p>
+
+  <div id="results">
+    <p class="empty">Click Fetch to begin 🌈</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>MoodScape 🌈</h3>
+      <p>Your daily dose of motivation and mood-based quotes.</p>
     </div>
 
-    <p id="loading" class="hidden">Loading...</p>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <p>Home</p>
+      <p>Features</p>
+      <p>About</p>
+    </div>
 
-    <!-- Results -->
-    <div id="results">
-      <p class="empty">Start by searching your mood 🌈</p>
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Email: yourname@email.com</p>
+      <p>Phone: +91 98765 43210</p>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="footer-bottom">
+    <p>© 2026 MoodScape | Made with ❤️</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
