@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MoodScape 🌈</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌈 MoodScape</h1>
+
+    <p class="subtitle">How are you feeling today?</p>
+
+    <!-- Input -->
+    <input type="text" id="moodInput" placeholder="Type your mood...">
+    <button id="searchBtn">Search</button>
+
+    <!-- Controls -->
+    <div class="controls">
+      <select id="filter">
+        <option value="all">All</option>
+        <option value="advice">Advice</option>
+        <option value="activity">Activity</option>
+      </select>
+
+      <select id="sort">
+        <option value="default">Sort</option>
+        <option value="length">By Length</option>
+      </select>
+    </div>
+
+    <p id="loading" class="hidden">Loading...</p>
+
+    <!-- Results -->
+    <div id="results">
+      <p class="empty">Start by searching your mood 🌈</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
